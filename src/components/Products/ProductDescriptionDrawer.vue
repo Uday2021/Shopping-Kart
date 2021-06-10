@@ -26,15 +26,26 @@
 <script>
     export default {
         props:['product','active'],
-       computed:{
-           product_total(){
-               return 56.00
-           }
-       }
+
+        methods:{
+            addToCart(){
+                this.$store.commit('addToCart', this.product)
+            },
+            removeFromCart(){
+                this.$store.commit('removeFromCart', this.product)
+            }
+        },
+
+        computed:{
+            product_total(){
+                 return this.$store.getters.productQuantity(this.product)
+            }
+        }
     }
 </script>
 
 <style lang="scss">
+
 .drawer-background{
     width: 100%;
     height: 100vh;
@@ -45,10 +56,12 @@
     z-index: 100;
     display: none;
     transition: display .5s;
+
     &.show{
         display: block;
     }
 }
+
 .drawer{
     width: 95vw;
     height: 100vh;
@@ -60,10 +73,12 @@
     transition: left .5s;
     z-index: 101;
     overflow-y: scroll;
+
     &.show{
         left: 0;
     }
 }
+
 .drawer-close{
     font-size: 1.5rem;
     padding: 5px;
@@ -74,18 +89,22 @@
     width: 15px;
     float: right;
     cursor: pointer;
+
     &:hover{
         background-color: lightgray;
     }
 }
+
 .product-details{
     display: flex;
     justify-content: center;
     flex-direction: column;
+
     p.description{
         padding: 20px;
         line-height: 1.5rem;
     }
+
     .button-container{
         button{
             width: 150px;
@@ -97,6 +116,7 @@
         }
     }
 }
+
 @media(min-width: 500px){
     .drawer{
          width: 450px;
